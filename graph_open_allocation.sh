@@ -1,9 +1,9 @@
 #! /bin/sh
 
+agora_dir=$HOME/agora
 ipfs=$1
 allocation=$2
-agora_dir=$HOME/agora
-cost_model='default => 0.00002;'
+cost_model=$3
 
 # Allocate GRT to subgraph
 echo "Allocating $2GRT to $1...\n"
@@ -30,5 +30,5 @@ fi
 
 
 # Set cost model for allocation
-echo "Setting cost model for $1...\n"
+echo "Setting cost model '$3' for $1...\n"
 graph indexer cost set model $1 $agora_dir/$1.agora
