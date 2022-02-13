@@ -1,1 +1,600 @@
+version: '3'
+services:
 
+# index-node
+  index-node1:
+    image: graphprotocol/graph-node:${GRAPH_NODE_VERSION}
+    ports:
+      - '8020:8020'
+      - '8030:8030'
+    expose:
+      - 8000
+      - 8001
+      - 8020
+      - 8030
+      - 8040
+    depends_on:
+      - postgres
+    volumes:
+      - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
+    environment:
+      GRAPH_NODE_CONFIG: /root/graph-node-configs/indexnode1.toml
+      postgres_host: postgres
+      postgres_user: ${SERVER_DB_USERNAME}
+      postgres_pass: ${SERVER_DB_PASSWORD}
+      postgres_db: ${SERVER_DB_GRAPH_NODE}
+      ipfs: ${IPFS_ENDPOINT}
+      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      #ethereum: 'mainnet:archive,traces:${ETH_SRC2}'
+      node_role: index-node
+      node_id: indexnode1
+      BLOCK_INGESTOR: indexnode1
+      RUST_LOG: info
+      GRAPH_ALLOW_NON_DETERMINISTIC_FULLTEXT_SEARCH: 'true'
+    networks:
+      main:
+        ipv4_address: 100.0.0.101
+    container_name: index-node1
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "1500m"
+
+# index-node
+  index-node2:
+    image: graphprotocol/graph-node:${GRAPH_NODE_VERSION}
+    expose:
+      - 8000
+      - 8001
+      - 8020
+      - 8030
+      - 8040
+    depends_on:
+      - postgres
+    volumes:
+      - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
+    environment:
+      GRAPH_NODE_CONFIG: /root/graph-node-configs/indexnode2.toml
+      postgres_host: postgres
+      postgres_user: ${SERVER_DB_USERNAME}
+      postgres_pass: ${SERVER_DB_PASSWORD}
+      postgres_db: ${SERVER_DB_GRAPH_NODE}
+      ipfs: ${IPFS_ENDPOINT}
+      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      #ethereum: 'mainnet:archive,traces:${ETH_SRC2}'
+      #ethereum: 'mainnet:archive,traces:${ETH_SRC3}'
+      node_role: index-node
+      node_id: indexnode2
+      BLOCK_INGESTOR: indexnode1
+      RUST_LOG: info
+      GRAPH_ALLOW_NON_DETERMINISTIC_FULLTEXT_SEARCH: 'true'
+    networks:
+      main:
+        ipv4_address: 100.0.0.102
+    container_name: index-node2
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "1500m"
+
+# query-node
+  query-node1:
+    image: graphprotocol/graph-node:${GRAPH_NODE_VERSION}
+    ports:
+      - '8100:8000'
+    expose:
+      - 8000
+      - 8001
+      - 8020
+      - 8030
+      - 8040
+    depends_on:
+      - postgres
+    volumes:
+      - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
+    environment:
+      #GRAPH_NODE_CONFIG: /root/graph-node-configs/querynode1.toml
+      postgres_host: postgres
+      postgres_user: ${SERVER_DB_USERNAME}
+      postgres_pass: ${SERVER_DB_PASSWORD}
+      postgres_db: ${SERVER_DB_GRAPH_NODE}
+      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      ipfs: ${IPFS_ENDPOINT}
+      node_role: query-node
+      node_id: querynode1
+      BLOCK_INGESTOR: indexnode1
+      DISABLE_BLOCK_INGESTOR: 'true'
+      GRAPH_LOG_QUERY_TIMING: gql
+      RUST_LOG: info
+      GRAPH_ALLOW_NON_DETERMINISTIC_FULLTEXT_SEARCH: 'true'
+    networks:
+      main:
+        ipv4_address: 100.0.0.109
+    container_name: query-node1
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "1500m"
+
+# query-node
+  query-node2:
+    image: graphprotocol/graph-node:${GRAPH_NODE_VERSION}
+    ports:
+      - '8200:8000'
+    expose:
+      - 8000
+      - 8001
+      - 8020
+      - 8030
+      - 8040
+    depends_on:
+      - postgres
+    volumes:
+      - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
+    environment:
+      #GRAPH_NODE_CONFIG: /root/graph-node-configs/querynode2.toml
+      postgres_host: postgres
+      postgres_user: ${SERVER_DB_USERNAME}
+      postgres_pass: ${SERVER_DB_PASSWORD}
+      postgres_db: ${SERVER_DB_GRAPH_NODE}
+      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      ipfs: ${IPFS_ENDPOINT}
+      node_role: query-node
+      node_id: querynode2
+      BLOCK_INGESTOR: indexnode1
+      DISABLE_BLOCK_INGESTOR: 'true'
+      GRAPH_LOG_QUERY_TIMING: gql
+      RUST_LOG: info
+      GRAPH_ALLOW_NON_DETERMINISTIC_FULLTEXT_SEARCH: 'true'
+    networks:
+      main:
+        ipv4_address: 100.0.0.110
+    container_name: query-node2
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "1500m"
+
+# query-node
+  query-node3:
+    image: graphprotocol/graph-node:${GRAPH_NODE_VERSION}
+    ports:
+      - '8300:8000'
+    expose:
+      - 8000
+      - 8001
+      - 8020
+      - 8030
+      - 8040
+    depends_on:
+      - postgres
+    volumes:
+      - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
+    environment:
+      #GRAPH_NODE_CONFIG: /root/graph-node-configs/querynode3.toml
+      postgres_host: postgres
+      postgres_user: ${SERVER_DB_USERNAME}
+      postgres_pass: ${SERVER_DB_PASSWORD}
+      postgres_db: ${SERVER_DB_GRAPH_NODE}
+      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      ipfs: ${IPFS_ENDPOINT}
+      node_role: query-node
+      node_id: querynode3
+      BLOCK_INGESTOR: indexnode1
+      DISABLE_BLOCK_INGESTOR: 'true'
+      GRAPH_LOG_QUERY_TIMING: gql
+      RUST_LOG: info
+      GRAPH_ALLOW_NON_DETERMINISTIC_FULLTEXT_SEARCH: 'true'
+    networks:
+      main:
+        ipv4_address: 100.0.0.111
+    container_name: query-node3
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "1500m"
+
+# query-node
+  query-node4:
+    image: graphprotocol/graph-node:${GRAPH_NODE_VERSION}
+    ports:
+      - '8400:8000'
+    expose:
+      - 8000
+      - 8001
+      - 8020
+      - 8030
+      - 8040
+    depends_on:
+      - postgres
+    volumes:
+      - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
+    environment:
+      #GRAPH_NODE_CONFIG: /root/graph-node-configs/querynode4.toml
+      postgres_host: postgres
+      postgres_user: ${SERVER_DB_USERNAME}
+      postgres_pass: ${SERVER_DB_PASSWORD}
+      postgres_db: ${SERVER_DB_GRAPH_NODE}
+      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      ipfs: ${IPFS_ENDPOINT}
+      node_role: query-node
+      node_id: querynode4
+      BLOCK_INGESTOR: indexnode1
+      DISABLE_BLOCK_INGESTOR: 'true'
+      GRAPH_LOG_QUERY_TIMING: gql
+      RUST_LOG: info
+      GRAPH_ALLOW_NON_DETERMINISTIC_FULLTEXT_SEARCH: 'true'
+    networks:
+      main:
+        ipv4_address: 100.0.0.112
+    container_name: query-node4
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "1500m"
+
+# postgres
+  postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    expose:
+      - 5432
+    command: ['postgres', '-cshared_preload_libraries=pg_stat_statements']
+    environment:
+      - POSTGRES_USER=${SERVER_DB_USERNAME}
+      - POSTGRES_PASSWORD=${SERVER_DB_PASSWORD}
+      - POSTGRES_MULTIPLE_DATABASES="${SERVER_DB_GRAPH_NODE}","${SERVER_DB_AGENT}"
+    volumes:
+      - ${WORKING_DIRECTORY}/graph/postgres/docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+      - ${WORKING_DIRECTORY}/graph/postgres/data:/var/lib/postgresql/data
+    networks:
+      main:
+        ipv4_address: 100.0.0.103
+    container_name: postgres
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "500m"
+
+# postgres-exporter
+  postgres-exporter:
+    image: wrouesnel/postgres_exporter
+    depends_on:
+      - postgres
+    ports:
+      - '9187:9187'
+    expose:
+      - 9187
+    environment:
+      DATA_SOURCE_NAME: 'postgresql://${SERVER_DB_USERNAME}:${SERVER_DB_PASSWORD}@postgres:5432/postgres?sslmode=disable'
+    networks:
+      main:
+        ipv4_address: 100.0.0.104
+    container_name: postgres-exporter
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "500m"
+
+# prometheus
+  prometheus:
+    image: prom/prometheus
+    depends_on:
+      - postgres-exporter
+    ports:
+      - '9090:9090'
+    expose:
+      - 9090
+    volumes:
+      - ${WORKING_DIRECTORY}/graph/prometheus:/etc/prometheus
+    networks:
+      main:
+        ipv4_address: 100.0.0.105
+    container_name: prometheus
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "500m"
+
+# grafana
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana
+#    depends_on:
+#      - prometheus
+#    user: "1000"
+#    volumes:
+#      - ${WORKING_DIRECTORY}/graph/grafana:/var/lib/grafana
+#      - ${WORKING_DIRECTORY}/graph/grafana/provisioning:/etc/grafana/provisioning
+#    environment:
+#      GF_SECURITY_ADMIN_USER: admin
+#      GF_SECURITY_ADMIN_PASSWORD: password
+#      GF_USERS_ALLOW_SIGN_UP: "false"
+#      GF_SECURITY_DISABLE_BRUTE_FORCE_LOGIN_PROTECTION: "true"
+#      postgres_host: postgres:5432
+#      postgres_user: ${SERVER_DB_USERNAME}
+#      postgres_pass: ${SERVER_DB_PASSWORD}
+#      postgres_db: ${SERVER_DB_GRAPH_NODE}
+#    restart: unless-stopped
+#    ports:
+#      - '3000:3000'
+#    expose:
+#      - 3000
+#    networks:
+#      main:
+#        ipv4_address: 100.0.0.106
+#    logging:
+#      options:
+#        max-size: "500m"
+
+# indexer-agent
+  indexer-agent:
+    image: ghcr.io/graphprotocol/indexer-agent:${INDEXER_AGENT_VERSION}
+    container_name: indexer-agent
+    depends_on:
+      - index-node1
+      - index-node2
+      - query-node1
+      - query-node2
+      - query-node3
+      - query-node4
+    ports:
+      - '18000:18000'
+      - '7301:7301'
+    expose:
+      - 7301
+      - 18000
+      - 8002
+    environment:
+      INDEXER_AGENT_POSTGRES_HOST: postgres
+      INDEXER_AGENT_POSTGRES_PORT: 5432
+      INDEXER_AGENT_POSTGRES_DATABASE: ${SERVER_DB_AGENT}
+      INDEXER_AGENT_POSTGRES_USERNAME: ${SERVER_DB_USERNAME}
+      INDEXER_AGENT_POSTGRES_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_AGENT_GRAPH_NODE_QUERY_ENDPOINT: ${VM_LAN_IP}:8000
+      INDEXER_AGENT_GRAPH_NODE_ADMIN_ENDPOINT: http://index-node1:8020
+      INDEXER_AGENT_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
+      INDEXER_AGENT_PUBLIC_INDEXER_URL: ${PUBLIC_URL}
+      INDEXER_AGENT_INDEXER_MANAGEMENT_PORT: 18000
+      INDEXER_AGENT_METRICS_PORT: 7301
+      INDEXER_AGENT_INJECT_DAI: 'true'
+      INDEXER_AGENT_INDEX_NODE_IDS: "indexnode1,indexnode2"
+      INDEXER_AGENT_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
+      INDEXER_AGENT_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
+      INDEXER_AGENT_ETHEREUM: ${ETH_SRC1}
+      INDEXER_AGENT_ETHEREUM_NETWORK: ${ETH_NETWORK}
+      INDEXER_AGENT_MNEMONIC: ${MNEMONIC}
+      INDEXER_AGENT_INDEXER_ADDRESS: ${ETH_ADDRESS}
+      INDEXER_AGENT_RESTAKE_REWARDS: ${RESTAKE_REWARDS}
+      INDEXER_AGENT_ALLOCATION_CLAIM_THRESHOLD: ${ALLOCATION_CLAIM_THRESHOLD}
+      INDEXER_AGENT_DAI_CONTRACT: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
+      INDEXER_AGENT_COLLECT_RECEIPTS_ENDPOINT: https://gateway.thegraph.com/collect-receipts
+      INDEXER_AGENT_GAS_INCREASE_TIMEOUT: ${GAS_INCREASE_TIMEOUT}
+      INDEXER_AGENT_GAS_INCREASE_FACTOR: ${GAS_INCREASE_FACTOR}
+      INDEXER_AGENT_GAS_PRICE_MAX: ${GAS_PRICE_MAX}
+      INDEXER_AGENT_TRANSACTION_ATTEMPTS: ${TX_ATTEMPTS}
+      INDEXER_AGENT_SERVE_NETWORK_SUBGRAPH: ${SERVE_NETWORK_SUBGRAPH}
+      INDEXER_AGENT_REBATE_CLAIM_THRESHOLD: ${REBATE_CLAIM_THRESHOLD}
+      INDEXER_AGENT_REBATE_CLAIM_BATCH_THRESHOLD: ${REBATE_CLAIM_BATCH_THRESHOLD}
+      INDEXER_AGENT_OFFCHAIN_SUBGRAPHS: '${OFFCHAIN_SUBGRAPHS}'
+    command: "--indexer-geo-coordinates=${GEO_COORDS}"
+    logging:
+      options:
+        max-size: "500m"
+    networks:
+      main:
+        ipv4_address: 100.0.0.107
+    restart: unless-stopped
+
+# indexer-service
+  indexer-service1:
+    image: ghcr.io/graphprotocol/indexer-service:${INDEXER_SERVICE_VERSION}
+    container_name: indexer-service1
+    depends_on:
+      - index-node1
+      - index-node2
+    ports:
+      - '${SVC_01}:7600'
+    expose:
+      - 7600
+    environment:
+      SERVER_HOST: postgres
+      SERVER_PORT: 5432
+      SERVER_DB_NAME: ${SERVER_DB_AGENT}
+      SERVER_DB_USER: ${SERVER_DB_USERNAME}
+      SERVER_DB_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_POSTGRES_HOST: postgres
+      INDEXER_SERVICE_POSTGRES_PORT: 5432
+      INDEXER_SERVICE_POSTGRES_DATABASE: ${SERVER_DB_AGENT}
+      INDEXER_SERVICE_POSTGRES_USERNAME: ${SERVER_DB_USERNAME}
+      INDEXER_SERVICE_POSTGRES_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_PORT: 7600
+      INDEXER_SERVICE_GRAPH_NODE_QUERY_ENDPOINT: ${VM_LAN_IP}:8000
+      INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
+      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
+      INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
+      INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
+      INDEXER_SERVICE_WALLET_WORKER_THREADS: ${SERVICE_WORKER_THREADS}
+      INDEXER_SERVICE_WALLET_SKIP_EVM_VALIDATION: ${SKIP_EVM_VALIDATION}
+      INDEXER_SERVICE_CLIENT_SIGNER_ADDRESS: '${CLIENT_SIGNER_ADDRESS}'
+    logging:
+      options:
+        max-size: "500m"
+    networks:
+      main:
+        ipv4_address: 100.0.0.113
+    restart: unless-stopped
+
+  indexer-service2:
+    image: ghcr.io/graphprotocol/indexer-service:${INDEXER_SERVICE_VERSION}
+    container_name: indexer-service2
+    depends_on:
+      - index-node1
+      - index-node2
+    ports:
+      - '${SVC_02}:7600'
+    expose:
+      - 7600
+    environment:
+      SERVER_HOST: postgres
+      SERVER_PORT: 5432
+      SERVER_DB_NAME: ${SERVER_DB_AGENT}
+      SERVER_DB_USER: ${SERVER_DB_USERNAME}
+      SERVER_DB_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_POSTGRES_HOST: postgres
+      INDEXER_SERVICE_POSTGRES_PORT: 5432
+      INDEXER_SERVICE_POSTGRES_DATABASE: ${SERVER_DB_AGENT}
+      INDEXER_SERVICE_POSTGRES_USERNAME: ${SERVER_DB_USERNAME}
+      INDEXER_SERVICE_POSTGRES_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_PORT: 7600
+      INDEXER_SERVICE_GRAPH_NODE_QUERY_ENDPOINT: ${VM_LAN_IP}:8000
+      INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
+      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
+      INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
+      INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
+      INDEXER_SERVICE_WALLET_WORKER_THREADS: ${SERVICE_WORKER_THREADS}
+      INDEXER_SERVICE_WALLET_SKIP_EVM_VALIDATION: ${SKIP_EVM_VALIDATION}
+      INDEXER_SERVICE_CLIENT_SIGNER_ADDRESS: '${CLIENT_SIGNER_ADDRESS}'
+    logging:
+      options:
+        max-size: "500m"
+    networks:
+      main:
+        ipv4_address: 100.0.0.114
+    restart: unless-stopped
+
+  indexer-service3:
+    image: ghcr.io/graphprotocol/indexer-service:${INDEXER_SERVICE_VERSION}
+    container_name: indexer-service3
+    depends_on:
+      - index-node1
+      - index-node2
+    ports:
+      - '${SVC_03}:7600'
+    expose:
+      - 7600
+    environment:
+      SERVER_HOST: postgres
+      SERVER_PORT: 5432
+      SERVER_DB_NAME: ${SERVER_DB_AGENT}
+      SERVER_DB_USER: ${SERVER_DB_USERNAME}
+      SERVER_DB_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_POSTGRES_HOST: postgres
+      INDEXER_SERVICE_POSTGRES_PORT: 5432
+      INDEXER_SERVICE_POSTGRES_DATABASE: ${SERVER_DB_AGENT}
+      INDEXER_SERVICE_POSTGRES_USERNAME: ${SERVER_DB_USERNAME}
+      INDEXER_SERVICE_POSTGRES_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_PORT: 7600
+      INDEXER_SERVICE_GRAPH_NODE_QUERY_ENDPOINT: ${VM_LAN_IP}:8000
+      INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
+      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
+      INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
+      INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
+      INDEXER_SERVICE_WALLET_WORKER_THREADS: ${SERVICE_WORKER_THREADS}
+      INDEXER_SERVICE_WALLET_SKIP_EVM_VALIDATION: ${SKIP_EVM_VALIDATION}
+      INDEXER_SERVICE_CLIENT_SIGNER_ADDRESS: '${CLIENT_SIGNER_ADDRESS}'
+    logging:
+      options:
+        max-size: "500m"
+    networks:
+      main:
+        ipv4_address: 100.0.0.115
+    restart: unless-stopped
+
+  indexer-service4:
+    image: ghcr.io/graphprotocol/indexer-service:${INDEXER_SERVICE_VERSION}
+    container_name: indexer-service4
+    depends_on:
+      - index-node1
+      - index-node2
+    ports:
+      - '${SVC_04}:7600'
+    expose:
+      - 7600
+    environment:
+      SERVER_HOST: postgres
+      SERVER_PORT: 5432
+      SERVER_DB_NAME: ${SERVER_DB_AGENT}
+      SERVER_DB_USER: ${SERVER_DB_USERNAME}
+      SERVER_DB_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_POSTGRES_HOST: postgres
+      INDEXER_SERVICE_POSTGRES_PORT: 5432
+      INDEXER_SERVICE_POSTGRES_DATABASE: ${SERVER_DB_AGENT}
+      INDEXER_SERVICE_POSTGRES_USERNAME: ${SERVER_DB_USERNAME}
+      INDEXER_SERVICE_POSTGRES_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_PORT: 7600
+      INDEXER_SERVICE_GRAPH_NODE_QUERY_ENDPOINT: ${VM_LAN_IP}:8000
+      INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
+      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
+      INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
+      INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
+      INDEXER_SERVICE_WALLET_WORKER_THREADS: ${SERVICE_WORKER_THREADS}
+      INDEXER_SERVICE_WALLET_SKIP_EVM_VALIDATION: ${SKIP_EVM_VALIDATION}
+      INDEXER_SERVICE_CLIENT_SIGNER_ADDRESS: '${CLIENT_SIGNER_ADDRESS}'
+    logging:
+      options:
+        max-size: "500m"
+    networks:
+      main:
+        ipv4_address: 100.0.0.116
+    restart: unless-stopped
+
+  indexer-service5:
+    image: ghcr.io/graphprotocol/indexer-service:${INDEXER_SERVICE_VERSION}
+    container_name: indexer-service5
+    depends_on:
+      - index-node1
+      - index-node2
+    ports:
+      - '${SVC_05}:7600'
+    expose:
+      - 7600
+    environment:
+      SERVER_HOST: postgres
+      SERVER_PORT: 5432
+      SERVER_DB_NAME: ${SERVER_DB_AGENT}
+      SERVER_DB_USER: ${SERVER_DB_USERNAME}
+      SERVER_DB_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_POSTGRES_HOST: postgres
+      INDEXER_SERVICE_POSTGRES_PORT: 5432
+      INDEXER_SERVICE_POSTGRES_DATABASE: ${SERVER_DB_AGENT}
+      INDEXER_SERVICE_POSTGRES_USERNAME: ${SERVER_DB_USERNAME}
+      INDEXER_SERVICE_POSTGRES_PASSWORD: ${SERVER_DB_PASSWORD}
+      INDEXER_SERVICE_PORT: 7600
+      INDEXER_SERVICE_GRAPH_NODE_QUERY_ENDPOINT: ${VM_LAN_IP}:8000
+      INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
+      INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
+      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
+      INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
+      INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
+      INDEXER_SERVICE_WALLET_WORKER_THREADS: ${SERVICE_WORKER_THREADS}
+      INDEXER_SERVICE_WALLET_SKIP_EVM_VALIDATION: ${SKIP_EVM_VALIDATION}
+      INDEXER_SERVICE_CLIENT_SIGNER_ADDRESS: '${CLIENT_SIGNER_ADDRESS}'
+    logging:
+      options:
+        max-size: "500m"
+    networks:
+      main:
+        ipv4_address: 100.0.0.117
+    restart: unless-stopped
+
+# networks
+networks:
+  main:
+    external:
+      name: main
