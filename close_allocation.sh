@@ -2,8 +2,11 @@
 
 ipfs=$1
 
-echo "Closing $1 allocation..."
-graph indexer rules set $1 parallelAllocations 0 decisionBasis never allocationAmount 0
+echo "Closing ${ipfs} allocation..."
+echo ""
+graph indexer rules set ${ipfs} parallelAllocations 0 decisionBasis never allocationAmount 0
+#echo ""
 
 #echo "Deleting allocation rule..."
-#graph indexer rules delete $1
+#echo ""
+#graph indexer rules delete ${ipfs}
