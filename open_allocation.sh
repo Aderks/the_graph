@@ -1,8 +1,8 @@
 #! /bin/sh
 
+agora_dir=$HOME/agora
 ipfs=$1
 allocation=$2
-agora_dir=$HOME/agora
 cost_model=$3
 
 # Allocate GRT to subgraph
