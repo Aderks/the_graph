@@ -19,13 +19,13 @@ services:
       - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
     environment:
       GRAPH_NODE_CONFIG: /root/graph-node-configs/indexnode1.toml
+      ETH_GETH_SRC1: ${ETH_GETH_SRC1}
       postgres_host: postgres
       postgres_user: ${SERVER_DB_USERNAME}
       postgres_pass: ${SERVER_DB_PASSWORD}
       postgres_db: ${SERVER_DB_GRAPH_NODE}
       ipfs: ${IPFS_ENDPOINT}
-      ethereum: 'mainnet:archive:${ETH_SRC1}'
-      #ethereum: 'mainnet:archive,traces:${ETH_SRC2}'
+      ethereum: '${ETH_GETH_FEATURES}:${ETH_GETH_SRC1}'
       node_role: index-node
       node_id: indexnode1
       BLOCK_INGESTOR: indexnode1
@@ -55,14 +55,13 @@ services:
       - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
     environment:
       GRAPH_NODE_CONFIG: /root/graph-node-configs/indexnode2.toml
+      ETH_ERIGON_SRC1: ${ETH_ERIGON_SRC1}
       postgres_host: postgres
       postgres_user: ${SERVER_DB_USERNAME}
       postgres_pass: ${SERVER_DB_PASSWORD}
       postgres_db: ${SERVER_DB_GRAPH_NODE}
       ipfs: ${IPFS_ENDPOINT}
-      ethereum: 'mainnet:archive:${ETH_SRC1}'
-      #ethereum: 'mainnet:archive,traces:${ETH_SRC2}'
-      #ethereum: 'mainnet:archive,traces:${ETH_SRC3}'
+      ethereum: '${ETH_ERIGON_FEATURES}:${ETH_ERIGON_SRC1}'
       node_role: index-node
       node_id: indexnode2
       BLOCK_INGESTOR: indexnode1
@@ -94,11 +93,12 @@ services:
       - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
     environment:
       #GRAPH_NODE_CONFIG: /root/graph-node-configs/querynode1.toml
+      #ETH_GETH_SRC1: ${ETH_GETH_SRC1}
       postgres_host: postgres
       postgres_user: ${SERVER_DB_USERNAME}
       postgres_pass: ${SERVER_DB_PASSWORD}
       postgres_db: ${SERVER_DB_GRAPH_NODE}
-      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      ethereum: '${ETH_GETH_FEATURES}:${ETH_GETH_SRC1}'
       ipfs: ${IPFS_ENDPOINT}
       node_role: query-node
       node_id: querynode1
@@ -133,11 +133,12 @@ services:
       - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
     environment:
       #GRAPH_NODE_CONFIG: /root/graph-node-configs/querynode2.toml
+      #ETH_GETH_SRC1: ${ETH_GETH_SRC1}
       postgres_host: postgres
       postgres_user: ${SERVER_DB_USERNAME}
       postgres_pass: ${SERVER_DB_PASSWORD}
       postgres_db: ${SERVER_DB_GRAPH_NODE}
-      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      ethereum: '${ETH_GETH_FEATURES}:${ETH_GETH_SRC1}'
       ipfs: ${IPFS_ENDPOINT}
       node_role: query-node
       node_id: querynode2
@@ -172,11 +173,12 @@ services:
       - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
     environment:
       #GRAPH_NODE_CONFIG: /root/graph-node-configs/querynode3.toml
+      #ETH_GETH_SRC1: ${ETH_GETH_SRC1}
       postgres_host: postgres
       postgres_user: ${SERVER_DB_USERNAME}
       postgres_pass: ${SERVER_DB_PASSWORD}
       postgres_db: ${SERVER_DB_GRAPH_NODE}
-      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      ethereum: '${ETH_GETH_FEATURES}:${ETH_GETH_SRC1}'
       ipfs: ${IPFS_ENDPOINT}
       node_role: query-node
       node_id: querynode3
@@ -211,11 +213,12 @@ services:
       - ${WORKING_DIRECTORY}/graph/graph-node-configs/:/root/graph-node-configs/
     environment:
       #GRAPH_NODE_CONFIG: /root/graph-node-configs/querynode4.toml
+      #ETH_GETH_SRC1: ${ETH_GETH_SRC1}
       postgres_host: postgres
       postgres_user: ${SERVER_DB_USERNAME}
       postgres_pass: ${SERVER_DB_PASSWORD}
       postgres_db: ${SERVER_DB_GRAPH_NODE}
-      ethereum: 'mainnet:archive:${ETH_SRC1}'
+      ethereum: '${ETH_GETH_FEATURES}:${ETH_GETH_SRC1}'
       ipfs: ${IPFS_ENDPOINT}
       node_role: query-node
       node_id: querynode4
@@ -362,7 +365,7 @@ services:
       INDEXER_AGENT_INDEX_NODE_IDS: "indexnode1,indexnode2"
       INDEXER_AGENT_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
       INDEXER_AGENT_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
-      INDEXER_AGENT_ETHEREUM: ${ETH_SRC1}
+      INDEXER_AGENT_ETHEREUM: ${ETH_GETH_SRC1}
       INDEXER_AGENT_ETHEREUM_NETWORK: ${ETH_NETWORK}
       INDEXER_AGENT_MNEMONIC: ${MNEMONIC}
       INDEXER_AGENT_INDEXER_ADDRESS: ${ETH_ADDRESS}
@@ -414,7 +417,7 @@ services:
       INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
       INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
       INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
-      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM: ${ETH_GETH_SRC1}
       INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
       INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
       INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
@@ -455,7 +458,7 @@ services:
       INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
       INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
       INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
-      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM: ${ETH_GETH_SRC1}
       INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
       INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
       INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
@@ -496,7 +499,7 @@ services:
       INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
       INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
       INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
-      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM: ${ETH_GETH_SRC1}
       INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
       INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
       INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
@@ -537,7 +540,7 @@ services:
       INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
       INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
       INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
-      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM: ${ETH_GETH_SRC1}
       INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
       INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
       INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
@@ -578,7 +581,7 @@ services:
       INDEXER_SERVICE_GRAPH_NODE_STATUS_ENDPOINT: http://index-node1:8030/graphql
       INDEXER_SERVICE_NETWORK_SUBGRAPH_ENDPOINT: ${NETWORK_SUBGRAPH_ENDPOINT}
       INDEXER_SERVICE_NETWORK_SUBGRAPH_DEPLOYMENT: '${NETWORK_SUBGRAPH}'
-      INDEXER_SERVICE_ETHEREUM: ${ETH_SRC1}
+      INDEXER_SERVICE_ETHEREUM: ${ETH_GETH_SRC1}
       INDEXER_SERVICE_ETHEREUM_NETWORK: ${ETH_NETWORK}
       INDEXER_SERVICE_MNEMONIC: ${MNEMONIC}
       INDEXER_SERVICE_INDEXER_ADDRESS: ${ETH_ADDRESS}
