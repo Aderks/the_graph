@@ -1,1 +1,15 @@
+[store]
+[store.primary]
+connection = "postgresql://${postgres_user}:${postgres_pass}@postgres:5432/${postgres_db}"
+pool_size = 10
 
+[chains]
+ingestor = "indexnode1"
+
+[chains.mainnet]
+shard = "primary"
+provider = [ { label = "mainnet", url = "${ETH_GETH_SRC1}", features = ["archive"] } ]
+
+[deployment]
+[[deployment.rule]]
+indexers = [ "indexnode1" ]
