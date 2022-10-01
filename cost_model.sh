@@ -2,13 +2,7 @@
 
 agora_dir=$HOME/agora
 ipfs=$1
-allocation=$2
-cost_model=$3
-
-# Allocate GRT to subgraph
-echo "Allocating ${allocation}GRT to ${ipfs}...\n"
-graph indexer rules set ${ipfs} parallelAllocations 1 decisionBasis always allocationAmount ${allocation}
-echo ""
+cost_model=$2
 
 
 # Check for cost model agora file
