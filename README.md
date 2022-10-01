@@ -7,17 +7,11 @@
 Make scripts executable
 
 ```
-chmod +x close_allocation.sh && chmod +x open_allocation.sh
+chmod +x cost_model.sh
 ```
 
-Open Allocation
+Set Cost Model
 
 ```
-./open_allocation.sh Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB 1000000 'default => 0.000055;'
-```
-
-Close Allocation
-
-```
-./close_allocation.sh Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB
+./cost_model.sh Qme66ZNMxSdCQKzaDuvS381whCVYCQjf637sGZCqJHAWHB 'default => 0.000055;'
 ```
